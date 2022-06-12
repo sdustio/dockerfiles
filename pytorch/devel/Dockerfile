@@ -55,11 +55,11 @@ RUN set -eux; \
     rm ./node-debian.sh; \
     apt-get clean -y; rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 # COPY requirements.txt /tmp/pip-tmp/
-# RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
+# RUN pip --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
 #    && rm -rf /tmp/pip-tmp
 
 # [Optional] Uncomment this section to install additional OS packages.
