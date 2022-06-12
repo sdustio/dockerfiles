@@ -1,6 +1,6 @@
 ARG CUDA=11.3.1-runtime-ubuntu20.04
 
-FROM nvidia/cuda:CUDA
+FROM nvidia/cuda:${CUDA}
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"
@@ -29,13 +29,16 @@ RUN set -eux; \
 
 
 # Setup default python tools in a venv via pipx to avoid conflicts
+ARG PYTHON_VERSION="3.8"
+ENV PY_HOME=/usr/local/python \
+    PY_BIN_DIR=/usr/local/python/bin
 ENV PIPX_HOME=/usr/local/py-utils \
     PIPX_BIN_DIR=/usr/local/py-utils/bin
-ENV PATH=${PATH}:${PIPX_BIN_DIR}
+ENV PATH=${PATH}:${PY_BIN_DIR}:${PIPX_BIN_DIR}
 
 RUN set -eux; \
     curl -fSsLO ${SCRIPTLIBPREFIX}/python-debian.sh; \
-    bash ./python-debian.sh  "none" "/usr/local" "${PIPX_HOME}" "${USERNAME}"; \
+    bash ./python-debian.sh "${PYTHON_VERSION}" "${PY_HOME}" "${PIPX_HOME}" "${USERNAME}"; \
     rm ./python-debian.sh; \
     apt-get clean -y; rm -rf /var/lib/apt/lists/*
 
@@ -48,11 +51,11 @@ ENV NVM_SYMLINK_CURRENT=true \
 
 RUN set -eux; \
     curl -fSsLO ${SCRIPTLIBPREFIX}/node-debian.sh; \
-    bash ./node-debian.sh"${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}"; \
+    bash ./node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}"; \
     rm ./node-debian.sh; \
     apt-get clean -y; rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 # COPY requirements.txt /tmp/pip-tmp/
