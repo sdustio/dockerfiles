@@ -5,9 +5,6 @@ on:
       - 'main'
     paths:
       - 'spotng/**/*'
-permissions:
-  contents: read
-  packages: write
 jobs:
   devcontainer:
     runs-on: ubuntu-latest
