@@ -27,33 +27,14 @@ RUN set -eux; \
     rm ./common-debian.sh; \
     apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
 
-
-# Setup default python tools in a venv via pipx to avoid conflicts
-ARG PYTHON_VERSION="3.8"
-ENV PY_HOME=/usr/local/python \
-    PY_BIN_DIR=/usr/local/python/bin
-ENV PIPX_HOME=/usr/local/py-utils \
-    PIPX_BIN_DIR=/usr/local/py-utils/bin
-ENV PATH=${PATH}:${PY_BIN_DIR}:${PIPX_BIN_DIR}
-
 RUN set -eux; \
-    curl -fSsLO ${SCRIPTLIBPREFIX}/python-debian.sh; \
-    bash ./python-debian.sh "${PYTHON_VERSION}" "${PY_HOME}" "${PIPX_HOME}" "${USERNAME}"; \
-    rm ./python-debian.sh; \
-    apt-get clean -y; rm -rf /var/lib/apt/lists/*
-
-
-# [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
-ARG NODE_VERSION="none"
-ENV NVM_DIR=/usr/local/share/nvm
-ENV NVM_SYMLINK_CURRENT=true \
-    PATH=${NVM_DIR}/current/bin:${PATH}
-
-RUN set -eux; \
-    curl -fSsLO ${SCRIPTLIBPREFIX}/node-debian.sh; \
-    bash ./node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}"; \
-    rm ./node-debian.sh; \
-    apt-get clean -y; rm -rf /var/lib/apt/lists/*
+    apt-get update; \
+	apt-get install -y --no-install-recommends \
+        python3-dev \
+		python3-pip \
+		python-is-python3 \
+    ; \
+	rm -rf /var/lib/apt/lists/*;
 
 RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
 
@@ -65,6 +46,3 @@ RUN pip install torch torchvision torchaudio --extra-index-url https://download.
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
-
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
