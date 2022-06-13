@@ -25,7 +25,7 @@ RUN set -eux; \
     rm ./common-debian.sh; \
     apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
 
-RUN pip install autopep8 black yapf bandit flake8 mypy pycodestyle pydocstyle pylint
+RUN pip --disable-pip-version-check --no-cache-dir install autopep8 black yapf bandit flake8 mypy pycodestyle pydocstyle pylint
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 # COPY requirements.txt /tmp/pip-tmp/

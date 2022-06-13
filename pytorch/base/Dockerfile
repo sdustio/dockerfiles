@@ -9,4 +9,4 @@ RUN set -eux; \
     ; \
 	rm -rf /var/lib/apt/lists/*;
 
-RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+RUN pip --disable-pip-version-check --no-cache-dir install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
