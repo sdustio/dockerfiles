@@ -1,23 +1,22 @@
 {
-	"name": "SpotNg",
+	"name": "OpenSpot",
 	"build": {
-		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick an Debian / Ubuntu OS version: debian-11, debian-10, ubuntu-22.04, ubuntu-20.04, ubuntu-18.04
-		// Use Debian 11, Ubuntu 18.04 or Ubuntu 22.04 on local arm64/Apple Silicon
-		"args": {"VARIANT": "ubuntu"}
+		"dockerfile": "Dockerfile"
 	},
-	"runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
 
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
 		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {},
+
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
+				"ms-python.python",
 				"ms-vscode.cpptools",
 				"ms-vscode.cmake-tools"
-			],
-			"settings": {}
+			]
 		}
 	},
 
@@ -25,7 +24,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "gcc -v",
+	// "postCreateCommand": "pip3 install --user -r requirements.txt",
 
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
