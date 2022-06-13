@@ -1,19 +1,4 @@
-ARG CUDA=11.3.1-runtime-ubuntu20.04
-
-FROM nvidia/cuda:${CUDA}
-
-RUN set -eux; \
-    apt-get update; \
-	apt-get install -y --no-install-recommends \
-        python3-dev \
-		python3-pip \
-		python-is-python3 \
-    ; \
-	rm -rf /var/lib/apt/lists/*;
-
-RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
-
-# For VSCode devcontainer
+FROM ghcr.io/sdustio/pytorch:base
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"

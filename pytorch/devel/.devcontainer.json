@@ -1,12 +1,7 @@
 {
-	"name": "Python 3",
+	"name": "Pytorch",
 	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			// Options
-			"PYTHON_VERSION": "3.8",
-			"NODE_VERSION": "lts/*"
-		}
+		"dockerfile": "Dockerfile"
 	},
 
 	// Configure tool-specific properties.
@@ -31,8 +26,7 @@
 
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
-				"ms-python.python",
-				"ms-python.vscode-pylance"
+				"ms-python.python"
 			]
 		}
 	},
