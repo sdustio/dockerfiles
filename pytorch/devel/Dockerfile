@@ -2,6 +2,19 @@ ARG CUDA=11.3.1-runtime-ubuntu20.04
 
 FROM nvidia/cuda:${CUDA}
 
+RUN set -eux; \
+    apt-get update; \
+	apt-get install -y --no-install-recommends \
+        python3-dev \
+		python3-pip \
+		python-is-python3 \
+    ; \
+	rm -rf /var/lib/apt/lists/*;
+
+RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+
+# For VSCode devcontainer
+
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"
 # [Option] Upgrade OS packages to their latest versions
@@ -27,16 +40,7 @@ RUN set -eux; \
     rm ./common-debian.sh; \
     apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
 
-RUN set -eux; \
-    apt-get update; \
-	apt-get install -y --no-install-recommends \
-        python3-dev \
-		python3-pip \
-		python-is-python3 \
-    ; \
-	rm -rf /var/lib/apt/lists/*;
-
-RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+RUN pip install autopep8 black yapf bandit flake8 mypy pycodestyle pydocstyle pylint
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 # COPY requirements.txt /tmp/pip-tmp/
