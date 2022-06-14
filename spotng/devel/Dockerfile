@@ -6,4 +6,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends ccache clang-format \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-RUN vcpkg install eigen3 spdlog
+RUN set -eux; \
+    vcpkg install eigen3 spdlog --binarysource=clear; \
+    rm -rf $VCPKG_ROOT/buildtrees $VCPKG_DOWNLOADS/*

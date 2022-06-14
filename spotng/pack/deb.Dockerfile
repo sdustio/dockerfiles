@@ -14,4 +14,6 @@ ENV GH_VERSION=2.12.1
 RUN curl -LO https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.deb \
     && dpkg -i gh_${GH_VERSION}_linux_amd64.deb && rm gh_${GH_VERSION}_linux_amd64.deb
 
-RUN vcpkg install eigen3 spdlog
+RUN set -eux; \
+    vcpkg install eigen3 spdlog --binarysource=clear; \
+    rm -rf $VCPKG_ROOT/buildtrees $VCPKG_ROOT/downloads/*
