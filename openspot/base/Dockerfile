@@ -1,1 +1,1 @@
-FROM ros:foxy-ros-core
+FROM ros:foxy-ros-base
