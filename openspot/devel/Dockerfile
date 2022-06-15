@@ -12,14 +12,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gazebo11 libgazebo11-dev ros-foxy-gazebo-ros-pkgs \
     && rm -rf /var/lib/apt/lists/*
 
-# setup environment
-EXPOSE 11345
-
-# setup entrypoint
-COPY ./entrypoint.sh /
-
-ENTRYPOINT ["/entrypoint.sh"]
-
 # For VSCode devcontainer
 
 # [Option] Install zsh
@@ -46,3 +38,13 @@ RUN set -eux; \
     bash ./common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true"; \
     rm ./common-debian.sh; \
     apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
+
+# setup environment
+EXPOSE 11345
+
+# setup entrypoint
+COPY ./entrypoint.sh /
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD [ "sleep", "infinity" ]
