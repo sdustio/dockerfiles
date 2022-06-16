@@ -4,6 +4,9 @@
 		"dockerfile": "Dockerfile"
 	},
 
+	// =======================
+	// recommended settings for devcontainer use:
+
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
