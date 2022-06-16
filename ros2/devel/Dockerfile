@@ -1,17 +1,5 @@
 FROM ros:foxy-ros-base
 
-# setup keys
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D2486D2DD83DB69272AFE98867170598AF249743
-
-# setup sources.list
-RUN . /etc/os-release \
-    && echo "deb http://packages.osrfoundation.org/gazebo/$ID-stable `lsb_release -sc` main" > /etc/apt/sources.list.d/gazebo-latest.list
-
-# install gazebo packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gazebo11 libgazebo11-dev ros-foxy-gazebo-ros-pkgs \
-    && rm -rf /var/lib/apt/lists/*
-
 # For VSCode devcontainer
 
 # [Option] Install zsh
@@ -38,13 +26,5 @@ RUN set -eux; \
     bash ./common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true"; \
     rm ./common-debian.sh; \
     apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
-
-# setup environment
-EXPOSE 11345
-
-# setup entrypoint
-COPY ./entrypoint.sh /
-
-ENTRYPOINT ["/entrypoint.sh"]
 
 CMD [ "sleep", "infinity" ]

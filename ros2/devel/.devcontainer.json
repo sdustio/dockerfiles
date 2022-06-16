@@ -1,5 +1,5 @@
 {
-	"name": "OpenSpot",
+	"name": "ROS2",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -25,7 +25,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "pip3 install --user -r requirements.txt",
-		
+
 	"overrideCommand": false,
 
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
