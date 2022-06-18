@@ -7,6 +7,9 @@
 	// =======================
 	// recommended settings for devcontainer use:
 
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/src/${localWorkspaceFolderBasename},type=bind,consistency=cached",
+    "workspaceFolder": "/workspace/src/${localWorkspaceFolderBasename}",
+
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
