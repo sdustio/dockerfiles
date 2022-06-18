@@ -1,4 +1,4 @@
-FROM ros:foxy-ros-base
+FROM ghcr.io/sdustio/ros2:base
 
 # For VSCode devcontainer
 
@@ -12,14 +12,6 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 ENV SCRIPTLIBPREFIX="https://raw.githubusercontent.com/microsoft/vscode-dev-containers/v0.238.0/script-library/"
-
-RUN set -eux; \
-    apt-get update; \
-	apt-get install -y --no-install-recommends \
-		ca-certificates \
-		curl \
-    ; \
-	rm -rf /var/lib/apt/lists/*;
 
 RUN set -eux; \
     curl -fSsLO ${SCRIPTLIBPREFIX}/common-debian.sh; \
