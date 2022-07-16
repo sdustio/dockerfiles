@@ -27,7 +27,7 @@ RUN set -eux; \
 
 RUN pip --disable-pip-version-check --no-cache-dir install \
     autopep8 black yapf bandit flake8 mypy pycodestyle pydocstyle pylint \
-    ipython visdom matplotlib opencv-python Pillow scikit-learn
+    ipython visdom matplotlib Pillow scikit-learn opencv-python-headless
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 # COPY requirements.txt /tmp/pip-tmp/
