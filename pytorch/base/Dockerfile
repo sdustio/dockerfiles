@@ -11,4 +11,6 @@ RUN set -eux; \
 
 RUN pip --disable-pip-version-check --no-cache-dir install \
 	torch torchvision torchaudio torchtext \
-	--extra-index-url https://download.pytorch.org/whl/cu113
+	--extra-index-url https://download.pytorch.org/whl/cu113; \
+	pip --disable-pip-version-check --no-cache-dir install \
+	Pillow scikit-learn

@@ -1,4 +1,4 @@
-FROM ghcr.io/sdustio/pytorch:base
+FROM ghcr.io/sdustio/pytorch:hf
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"
@@ -27,7 +27,7 @@ RUN set -eux; \
 
 RUN pip --disable-pip-version-check --no-cache-dir install \
     autopep8 black yapf bandit flake8 mypy pycodestyle pydocstyle pylint \
-    ipython visdom matplotlib Pillow scikit-learn opencv-python-headless
+    ipython visdom matplotlib opencv-python-headless
 
 # [Optional] If your pip requirements rarely change, uncomment this section to add them to the image.
 # COPY requirements.txt /tmp/pip-tmp/
