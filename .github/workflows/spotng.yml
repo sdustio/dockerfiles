@@ -10,26 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - working-directory: ./spotng/devel
-        run: |
-          set -e
-
-          # Update this based on your image name and the path of the .devcontainer folder in your repository
-          IMAGE_NAME="spotng:dev"
-          IMAGE_REPOSITORY="$(echo "ghcr.io/${{ github.repository_owner }}/${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
-
-          # [Optional] Enable buildkit, set output to plain text for logging
-          export DOCKER_BUILDKIT=1
-          export BUILDKIT_PROGRESS=plain
-
-          # Do the build - update
-          npm install -g "@vscode/dev-container-cli"
-          devcontainer build --no-cache --image-name "${IMAGE_REPOSITORY}" .
-
-          # Push image to GitHub Container Registry
-          echo "${{ github.token }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          docker push "${IMAGE_REPOSITORY}"
-
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Build and run Dev Container task
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/${{ github.repository_owner }}/spotng
+          imageTag: dev
+          subFolder: spotng/devel
+          noCache: true
+          push: always
   packcontainer:
     name: build pack image
     runs-on: ubuntu-latest
@@ -38,16 +32,18 @@ jobs:
         pack: [deb, rpm]
     steps:
       - uses: actions/checkout@v2
-      - working-directory: ./spotng/pack
-        run: |
-          set -e
-
-          # Update this based on your image name and the path of the .devcontainer folder in your repository
-          IMAGE_NAME="spotng:pack-${{ matrix.pack }}"
-          IMAGE_REPOSITORY="$(echo "ghcr.io/${{ github.repository_owner }}/${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
-
-          docker build -t "${IMAGE_REPOSITORY}" -f ${{ matrix.pack }}.Dockerfile .
-
-          # Push image to GitHub Container Registry
-          echo "${{ github.token }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          docker push "${IMAGE_REPOSITORY}"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./spotng/pack
+          file: ./spotng/pack/${{ matrix.pack }}.Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/spotng:pack-${{ matrix.pack }}
